@@ -79,7 +79,6 @@ add this data to one pandas.DataFrame.
 
 #create DataFrame
 data = pd.DataFrame()
-list_ = []
 
 #loop through all leagues considered
 for league in leagues:
@@ -91,14 +90,13 @@ for league in leagues:
 	for file_name in os.listdir(path):
 		
 		#read data with pandas
-		df = pd.read_csv(path + file_name)
+		df = pd.read_csv(path + file_name,delimiter = ',',
+			encoding = 'latin-1'
+			)
 		
 		#append data to data list
-		list_.append(df)
+		data.append(df)
 		
-#merge all data to one pandas dataFrame		
-data = pd.concat(list_)
-
 
 
 
