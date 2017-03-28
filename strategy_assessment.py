@@ -64,6 +64,9 @@ for bet_type in l_bet_types:
 			assessment[bet_type][value_calc][money_manage]\
 				['exp_profit'] 										= 0
 
+#lists
+l_data 			= [] #will be appended with all data available
+
 
 
 
@@ -78,7 +81,7 @@ add this data to one pandas.DataFrame.
 '''
 
 #create DataFrame
-data = pd.DataFrame()
+data   = pd.DataFrame()
 
 #loop through all leagues considered
 for league in leagues:
@@ -90,13 +93,11 @@ for league in leagues:
 	for file_name in os.listdir(path):
 		
 		#read data with pandas
-		df = pd.read_csv(path + file_name,delimiter = ',',
-			encoding = 'latin-1'
-			)
+		df = pd.read_csv(path + file_name,delimiter = ',')
+		l_data.append(df)
 		
-		#append data to data list
-		data.append(df)
-		
+data = pd.concat(l_data)
+
 
 
 
