@@ -74,19 +74,7 @@ class BetStrategy:
 		value_strat = ValueCalc()
 		
 		#calculate win percentage with the correct method
-		if self.value_calc == 'result_based':
-			win_perc = value_strat.result_based()
-		elif self.value_calc == 'goal_based':
-			win_perc = value_strat.goal_based()
-		elif self.value_calc == 'simple_goal_based':
-			win_perc = value_strat.simple_goal_based()
-		elif self.value_calc == 'double_goal_based':
-			win_perc = value_strat.double_goal_based()
-		elif self.value_calc == 'league_based':
-			win_perc = value_strat.league_based()
-		else:
-			print('spelling mistake ' + self.value_calc)
-			exit()
+		win_perc = getattr(value_strat,self.value_calc)()
 		
 		#check if win_perc was calculated correctly
 		assert isinstance(win_perc,float), 'win_perc not a float'
@@ -116,22 +104,8 @@ class BetStrategy:
 		money_strat= MoneyManage()
 		
 		#calculate stake with the correct method
-		if self.money_manage == 'flat_stake':
-			stake = money_strat.flat_stake()
-		elif self.money_mana == 'dyn_stake':
-			stake = money_strat.dyn_stake()
-		elif self.money_manage == 'units':
-			stake = money_strat.units()
-		elif self.money_manage == 'kelly':
-			stake = money_strat.kelly()
-		elif self.money_manage == 'loss_prog':
-			stake = money_strat.loss_prog()
-		elif self.money_manage == 'win_prog':
-			stake = money_strat.win_prog()
-		else:
-			print('spelling mistake ' + self.money_manage)
-			exit()
-
+		stake = getattr(money_strat,self.money_manage)()
+		
 		#check if stake was calculated correctly
 		assert isinstance(stake, float), 'stake not a float'
 		
