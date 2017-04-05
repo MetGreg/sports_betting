@@ -15,7 +15,7 @@
 ########################################################################
 ### ###
 ########################################################################
-class ValueCalc:
+class ValueCalc(object):
 	
 	'''
 	'''
@@ -30,15 +30,28 @@ class ValueCalc:
 		
 		pass
 		
+		
+		
+		
+		
 	####################################################################
 	### ###
 	####################################################################
-	def result_based(self):
+	def result_based(self,home_team_perc,away_team_perc):
 		
 		'''
+		Calculates the probability for a given outcome of a game. 
 		'''
 		
-		pass
+		#expected outcome probability = mean probability
+		win_perc = (home_team_perc + away_team_perc) / 2
+		
+		#return win_perc
+		return win_perc
+		
+		
+		
+		
 		
 	####################################################################
 	### ###

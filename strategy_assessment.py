@@ -20,9 +20,12 @@ Import all modules needed.
 '''
 
 from SportsBettingModule.bet_strategy import BetStrategy
+from SportsBettingModule.stats import Stats
+from SportsBettingModule.soccer_game import SoccerGame
 import parameter as par
-import os
 import pandas as pd
+import os
+
 
 
 
@@ -44,6 +47,8 @@ periods         = par.periods        #all periods under consideration
 period_weights  = par.period_weights #all weights of the periods
 outcomes        = par.outcomes       #list of outcomes
 leagues         = par.leagues        #all leagues considered
+period_type 	= par.period_type	 #consider past seasons or years
+flat_stake		= par.flat_stake	 #stake for a bet
 
 #dict with assessment criteria for each strategy
 assessment = {} 
@@ -75,7 +80,7 @@ for period in periods:
                     assessment[period][period_weight][bet_type]\
                         [value_calc][money_manage]['stake']      = 0
                     assessment[period][period_weight][bet_type]\
-						[value_calc][money_manage]['exp_profit'] = 0
+                        [value_calc][money_manage]['exp_profit'] = 0
 
 #lists
 l_data             = [] #will be appended with all data available
@@ -100,11 +105,11 @@ data   = pd.DataFrame()
 for league in leagues:
     
     #get the path to the league
-    path = 'data/'+ league + '/'
+    path = 'data/processed/'+ league + '/'
     
     #find all data files for this league
     for file_name in os.listdir(path):
-        
+
         #read data with pandas
         df = pd.read_csv(path + file_name,delimiter = ',')
         
@@ -113,6 +118,9 @@ for league in leagues:
         
 #add all dataframes to one pandas dataframe
 data = pd.concat(l_data)
+
+#create stats objective
+stats = Stats(data)
 
 
 
@@ -149,34 +157,49 @@ for period in periods:
                         )
                     
                     #loop through data and get profit of strategy
-                    for game in data:
+                    for index,game in data.iterrows():
+                         
+                        #calculate stats
+                        getattr(stats,period_weight)(
+                            game,period,period_type
+                            )
                         
-                        #get profit etc for each outcome
-                        for outcome in outcomes:
+                    
+                        #get value
+                       # value = strategy.get_value(
+                            #stats.home_win_perc[outcome],
+                            #stats.away_win_perc[outcome]
+                            #)
+                        
+                        #check, if there's value on this bet
+                        #if value > 1/rate:
+                        
+                            ##get stake
+                            #stake      = strategy.get_stake(
+                                #flat_stake,rate,value
+                                #)
                             
-                            #get value
-                            value      = strategy.get_value()
+                            ##get profit
+                            #profit     = strategy.get_profit()
                             
-                            #get stake
-                            stake      = strategy.get_stake()
+                            ##get expected profit
+                            #exp_profit = strategy.get_exp_profit()
                             
-                            #get profit
-                            profit     = strategy.get_profit()
-                            
-                            #get expected profit
-                            exp_profit = strategy.get_exp_profit()
-                            
-                            #save profit to dict
-                            assessment[period][period_weight][bet_type]\
-								[value_calc][money_manage]['profit']   \
-                                += profit
-                            assessment[period][period_weight][bet_type]\
-								[value_calc][money_manage]['stake']    \
-                                += stake
-                            assessment[period][period_weight][bet_type]\
-								[value_calc][money_manage]			   \
-								['exp_profit']\
-								+= exp_profit
+                            ##save profit to dict
+                            #assessment[period][period_weight]\
+                                #[bet_type][value_calc]       \
+                                #[money_manage]['profit']     \
+                                #+= profit
+                                
+                            #assessment[period][period_weight]\
+                                #[bet_type][value_calc]       \
+                                #[money_manage]['stake']      \
+                                #+= stake
+                                
+                            #assessment[period][period_weight]\
+                                #[bet_type][value_calc]       \
+                                #[money_manage]['exp_profit'] \
+                                #+= exp_profit
 
 
 
