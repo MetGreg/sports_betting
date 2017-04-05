@@ -200,11 +200,11 @@ class Stats(object):
         #calculate probabilities for each result
         for place in places:
             res_prob[place] = {}
-            res_prob[place]['win'] = static[place]['wins']\
+            res_prob[place]['home_win'] = static[place]['wins']\
                 /static[place]['games']
             res_prob[place]['draw'] = static[place]['draws']\
                 /static[place]['games']
-            res_prob[place]['away'] = static[place]['losses']\
+            res_prob[place]['away_win'] = static[place]['losses']\
                 /static[place]['games']
         
         #save probabilities to object

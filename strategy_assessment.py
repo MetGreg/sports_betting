@@ -164,42 +164,35 @@ for period in periods:
                             game,period,period_type
                             )
                         
-                    
                         #get value
-                       # value = strategy.get_value(
-                            #stats.home_win_perc[outcome],
-                            #stats.away_win_perc[outcome]
+                        value = strategy.get_value(stats.res_prob)
+                    
+                        ##get stake
+                        #stake      = strategy.get_stake(
+                            #flat_stake,rate,value
                             #)
                         
-                        #check, if there's value on this bet
-                        #if value > 1/rate:
+                        ##get profit
+                        #profit     = strategy.get_profit()
                         
-                            ##get stake
-                            #stake      = strategy.get_stake(
-                                #flat_stake,rate,value
-                                #)
+                        ##get expected profit
+                        #exp_profit = strategy.get_exp_profit()
+                        
+                        ##save profit to dict
+                        #assessment[period][period_weight]\
+                            #[bet_type][value_calc]       \
+                            #[money_manage]['profit']     \
+                            #+= profit
                             
-                            ##get profit
-                            #profit     = strategy.get_profit()
+                        #assessment[period][period_weight]\
+                            #[bet_type][value_calc]       \
+                            #[money_manage]['stake']      \
+                            #+= stake
                             
-                            ##get expected profit
-                            #exp_profit = strategy.get_exp_profit()
-                            
-                            ##save profit to dict
-                            #assessment[period][period_weight]\
-                                #[bet_type][value_calc]       \
-                                #[money_manage]['profit']     \
-                                #+= profit
-                                
-                            #assessment[period][period_weight]\
-                                #[bet_type][value_calc]       \
-                                #[money_manage]['stake']      \
-                                #+= stake
-                                
-                            #assessment[period][period_weight]\
-                                #[bet_type][value_calc]       \
-                                #[money_manage]['exp_profit'] \
-                                #+= exp_profit
+                        #assessment[period][period_weight]\
+                            #[bet_type][value_calc]       \
+                            #[money_manage]['exp_profit'] \
+                            #+= exp_profit
 
 
 

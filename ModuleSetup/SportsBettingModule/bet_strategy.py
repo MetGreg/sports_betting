@@ -59,7 +59,7 @@ class BetStrategy(object):
 	####################################################################
 	### Find value of a game ###
 	####################################################################
-	def get_value(self,home_win_perc,away_win_perc):
+	def get_value(self,res_prob):
 		
 		'''
 		Finds value of a given game, by calling a method of the
@@ -74,7 +74,7 @@ class BetStrategy(object):
 		value_strat = ValueCalc()
 		
 		#calculate win percentage with the correct method
-		win_perc = getattr(value_strat,self.value_calc)(home_win_perc,away_win_perc)
+		win_perc = getattr(value_strat,self.value_calc)(res_prob)
 					
 		#return the win percentage calculated
 		return win_perc
