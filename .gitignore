@@ -89,5 +89,4 @@ ENV/
 .ropeproject
 
 #Gregor
-/data
-parameter.py
+/old
