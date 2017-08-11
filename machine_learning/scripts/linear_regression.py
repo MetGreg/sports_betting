@@ -1,12 +1,13 @@
-'''This script uses linear regression on input soccer data'''
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Aug 11 17:22:41 2017
 
-# SoccerModule
-from soccer_data import SoccerData
+@author: gregor-linux
+"""
 
-data_file = '../data/SC3_16_17.csv'
+from SportsBettingModule.soccer_data import SoccerData
 
-soccer_data = SoccerData()
+csv_file = '../data/SC3_16_17.csv'
 
-df = soccer_data.csv2pandas(data_file)
-
-xarray = soccer_data.add_team_dim(df)
+soccer_data = SoccerData(csv_file)
