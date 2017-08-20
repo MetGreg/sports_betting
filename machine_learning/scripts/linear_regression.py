@@ -14,3 +14,4 @@ soccer_data = SoccerData(csv_file)
 
 soccer_data.add_game_cols()
 soccer_data.add_win_cols()
+soccer_data.add_perc_cols()

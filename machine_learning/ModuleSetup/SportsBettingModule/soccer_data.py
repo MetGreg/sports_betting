@@ -114,3 +114,20 @@ class SoccerData(object):
 
         # Update data attribute
         self.data = data
+
+    def add_perc_cols(self):
+        '''Adds a column of win percentage
+
+        For each arena (home, away) this method adds a column, which contains
+        the win percentage (where home or away games are distinguished) until
+        the game data. The data attribute of this class will then be updated
+        with the pandas dataframe containing the new columns.
+
+        '''
+        data = self.data
+
+        data['win_perc_home'] = data['home_wins']/data['home_games']*100
+        data['win_perc_away'] = data['away_wins']/data['away_games']*100
+
+        # Update data attribute
+        self.data = data
