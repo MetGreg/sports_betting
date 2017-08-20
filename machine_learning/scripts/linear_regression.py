@@ -12,4 +12,5 @@ csv_file = '../data/SC3_16_17.csv'
 
 soccer_data = SoccerData(csv_file)
 
-new_data = soccer_data.add_game_col()
+soccer_data.add_game_cols()
+soccer_data.add_win_cols()

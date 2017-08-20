@@ -31,29 +31,13 @@ class SoccerData(object):
         self.data = pd.read_csv(csv_data)
         self.teams = self.data['HomeTeam'].unique()
 
-    def add_win_col(self):
-        '''Add column of accumulated wins
-
-        Adds a column of accumulated wins to data. That means, the new column
-        will contain the past number of wins.
-
-        '''
-        data = self.data
-
-        # Loop through whole data
-        for index, key in data.iterrows():
-            home_team = key['HomeTeam']
-            away_team = key['AwayTeam']
-
-    def add_game_col(self):
+    def add_game_cols(self):
         '''Add columns of total games
 
         For each arena (home, away) this method adds a column, which contains
-        the past number of games played until the game date.
-
-        Returns:
-            (pandas.core.frame.DataFrame): Data with two added columns,
-            containing past number of home or away games.
+        the past number of (home, away) games played until the game date.
+        The data attribute of this class will then be updated with the pandas
+        dataframe containing the new columns.
 
         '''
         data = self.data
@@ -69,23 +53,64 @@ class SoccerData(object):
             home_team = key['HomeTeam']
             away_team = key['AwayTeam']
 
-            # Calculate number of past games of home team
+            # Calculate number of past home games of home team
             total_games_home = len(
-                    data[0:index].loc[
-                            data[0:index].loc[:, 'HomeTeam'] == home_team, :
-                                ]
-                        )
+                    data[0:index].loc[data['HomeTeam'] == home_team, :]
+                    )
 
-            # Calculate number of past games of away team
+            # Calculate number of past away games of away team
             total_games_away = len(
-                    data[0:index].loc[
-                            data[0:index].loc[:, 'AwayTeam'] == away_team, :
-                                ]
-                        )
+                    data[0:index].loc[data['AwayTeam'] == away_team, :]
+                    )
 
             # Update correct entry of new columns
             data.loc[index, 'home_games'] = total_games_home
             data.loc[index, 'away_games'] = total_games_away
 
-        # Return data with added columns
-        return data
+        # Update data attribute
+        self.data = data
+
+    def add_win_cols(self):
+        '''Add columns of total wins
+
+        For each arena (home, away) this method adds a column, which contains
+        the past number of (home, away) wins until the game date. The data
+        attribute of this class will then be updated with the pandas
+        dataframe containing the new columns.
+
+        '''
+        data = self.data
+
+        # Initialize new columns with zeros
+        data['home_wins'] = 0
+        data['away_wins'] = 0
+
+        # Loop through data
+        for index, key in data.iterrows():
+
+            # Find home and away team of current game
+            home_team = key['HomeTeam']
+            away_team = key['AwayTeam']
+
+            # Calculate number of past home wins of home team
+            total_wins_home = len(
+                    data[0:index].loc[
+                            (data['HomeTeam'] == home_team)
+                            & (data['FTR'] == 'H'), :
+                                ]
+                    )
+
+            # Calculate number of past away wins of away team
+            total_wins_away = len(
+                    data[0:index].loc[
+                            (data['AwayTeam'] == away_team)
+                            & (data['FTR'] == 'A'), :
+                                ]
+                    )
+
+            # Update correct entry of new columns
+            data.loc[index, 'home_wins'] = total_wins_home
+            data.loc[index, 'away_wins'] = total_wins_away
+
+        # Update data attribute
+        self.data = data
